@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Selling Accra Real Estate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --success: #059669;
+            --success-bg: #d1fae5;
+            --warning: #d97706;
+            --warning-bg: #fef3c7;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --bg-light: #f9fafb;
+            --wise-green: #9fe870;
+            --wise-dark: #163300;
+        }
+
+        /* Keyframe Animations */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulseWarning {
+            0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(217, 119, 6, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-main);
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .invoice-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            overflow: hidden;
+            opacity: 0;
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Animated Top Accent Bar */
+        .accent-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 25%, #ec4899 50%, #7c3aed 75%, #4f46e5 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 6s linear infinite;
+        }
+
+        .invoice-body {
+            padding: 40px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: slideUpFade 0.6s 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .header-left h1 {
+            margin: 0 0 8px 0;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .header-left p {
+            margin: 4px 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .header-right h2 {
+            margin: 0 0 12px 0;
+            font-size: 18px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .header-right p {
+            margin: 6px 0;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .due-date-badge {
+            display: inline-block;
+            background-color: var(--warning-bg);
+            color: var(--warning);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            margin-top: 4px;
+            border: 1px solid transparent;
+            animation: pulseWarning 2s infinite;
+        }
+
+        /* Billing Info */
+        .billing-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            gap: 40px;
+            opacity: 0;
+            animation: slideUpFade 0.6s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .billing-info div {
+            flex: 1;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .billing-info div:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            background: #ffffff;
+        }
+
+        .billing-info h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin: 0 0 12px 0;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .billing-info p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .billing-info p.name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        /* Table */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            opacity: 0;
+            animation: slideUpFade 0.6s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th {
+            background-color: var(--bg-light);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            vertical-align: top;
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr {
+            transition: all 0.25s ease;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        tbody tr:hover {
+            background-color: var(--bg-light);
+            transform: scale(1.002);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            z-index: 1;
+        }
+
+        .task-desc {
+            font-weight: 500;
+            color: var(--text-main);
+            max-width: 320px;
+        }
+
+        .task-url {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--primary);
+            margin-top: 6px;
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+            background: rgba(79, 70, 229, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .task-url:hover {
+            color: #4338ca;
+            text-decoration: underline;
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease;
+        }
+
+        .status-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .status-completed {
+            background-color: var(--success-bg);
+            color: var(--success);
+            border: 1px solid transparent;
+        }
+
+        .status-pending {
+            background-color: #f3f4f6;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        /* Summary Card */
+        .summary-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            opacity: 0;
+            animation: slideUpFade 0.6s 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .summary-card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            width: 320px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .summary-card:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .summary-row span:last-child {
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .summary-row.total {
+            border-top: 2px solid var(--border);
+            margin-top: 12px;
+            padding-top: 16px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .summary-row.total span:last-child {
+            color: var(--primary);
+            font-size: 24px;
+            text-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+        }
+
+        /* Payment Section (Wise Integration) */
+        .payment-section {
+            margin-top: 30px;
+            padding: 24px;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            opacity: 0;
+            animation: slideUpFade 0.6s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        .payment-info h4 {
+            margin: 0 0 6px 0;
+            font-size: 16px;
+            color: var(--text-main);
+        }
+        
+        .payment-info p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .wise-btn {
+            display: inline-block;
+            background-color: var(--wise-green);
+            color: var(--wise-dark);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(159, 232, 112, 0.4);
+        }
+
+        .wise-btn:hover {
+            background-color: #8be05d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -1px rgba(159, 232, 112, 0.6);
+        }
+
+        /* Notes & Footer */
+        .notes {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.6;
+            opacity: 0;
+            animation: slideUpFade 0.6s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .notes strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--primary);
+        }
+
+        /* Print Button */
+        .print-btn {
+            display: block;
+            width: 220px;
+            margin: 30px auto 0;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+            opacity: 0;
+            animation: slideUpFade 0.6s 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .print-btn:hover {
+            background-color: #4338ca;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(79, 70, 229, 0.4);
+        }
+        
+        .print-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Print Media Query */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            * {
+                animation: none !important;
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+                box-shadow: none !important;
+            }
+            .invoice-container {
+                border-radius: 0;
+                max-width: 100%;
+            }
+            .accent-bar {
+                display: none;
+            }
+            .billing-info div {
+                border: none;
+                background: transparent;
+                padding: 0;
+            }
+            .table-wrapper {
+                border: none;
+            }
+            .print-btn {
+                display: none;
+            }
+            .status-completed {
+                border: 1px solid var(--success);
+            }
+            .status-pending {
+                border: 1px solid var(--text-muted);
+            }
+            .task-url {
+                color: var(--text-main);
+                background: transparent;
+                padding: 0;
+            }
+            .payment-section {
+                border: 1px solid var(--border);
+                background-color: transparent;
+            }
+            .wise-btn {
+                border: 1px solid var(--wise-dark);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invoice-container">
+        <div class="accent-bar"></div>
+        <div class="invoice-body">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1>INVOICE</h1>
+                    <p><strong>Project:</strong> Website Landing Page & Social Media Updates</p>
+                    <p><strong>Domain:</strong> sellingaccra.com</p>
+                </div>
+                <div class="header-right">
+                    <h2>#INV2026SELACRA-001</h2>
+                    <p><strong>Issue Date:</strong> Nov 5, 2026</p>
+                    <p><strong>Billing Period:</strong> Oct 19 - Oct 25, 2026</p>
+                    <div class="due-date-badge">Due Date: Oct 26, 2026</div>
+                </div>
+            </div>
+
+            <!-- Billing Info -->
+            <div class="billing-info">
+                <div>
+                    <h3>Billed To</h3>
+                    <p class="name">Beatrix Ayache</p>
+                    <p>Realtor Agent</p>
+                    <p>Owner of Selling Accra - sellingaccra.com</p>
+                </div>
+                <div>
+                    <h3>Billed From</h3>
+                    <p class="name">Brian Gicaro</p>
+                    <p>Website Developer</p>
+                    <p>Virtual Assistant/Freelancer</p>
+                </div>
+            </div>
+
+            <!-- Line Items -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Task Description</th>
+                            <th>Status</th>
+                            <th class="text-right">Hours</th>
+                            <th class="text-right">Rate</th>
+                            <th class="text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="task-desc">Creation of Landing Pages - Site 1, Site 2, Site 3 — design, build & launch</td>
+                            <td><span class="status-badge status-completed">Completed</span></td>
+                            <td class="text-right">10h</td>
+                            <td class="text-right">$7.00</td>
+                            <td class="text-right">$70.00</td>
+                        </tr>
+                        <tr>
+                            <td class="task-desc">Managing Facebook Profile - Profile setup, profile photo & cover image</td>
+                            <td><span class="status-badge status-completed">Completed</span></td>
+                            <td class="text-right">2h</td>
+                            <td class="text-right">$7.00</td>
+                            <td class="text-right">$14.00</td>
+                        </tr>
+                       <tr>
+                            <td class="task-desc">Setting Up WordPress, GoDaddy & Elementor - Hosting, domain configuration & page builder setup</td>
+                            <td><span class="status-badge status-completed">Completed</span></td>
+                            <td class="text-right">3h</td>
+                            <td class="text-right">$7.00</td>
+                            <td class="text-right">$21.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Totals Summary -->
+            <div class="summary-wrapper">
+                <div class="summary-card">
+                    <div class="summary-row">
+                        <span>Subtotal (Completed Tasks):</span>
+                        <span>$105.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Total Hours Logged:</span>
+                        <span>15 hrs</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Hourly Rate:</span>
+                        <span>$7.00 / hr</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Due:</span>
+                        <span>$105.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wise Payment Integration -->
+            <div class="payment-section">
+                <div class="payment-info">
+                    <h4>Make a Payment</h4>
+                    <p>Pay securely and instantly using Wise (formerly TransferWise).</p>
+                </div>
+                <a href="https://wise.com/pay/me/briandalisayg1" target="_blank" class="wise-btn">
+                    Pay $105.00 via Wise
+                </a>
+            </div>
+
+            <!-- Notes
+            <div class="notes">
+                <strong>Project Notes:</strong>
+                Overall website launch preparation is 57% complete (4 of 7 tasks). No items are currently flagged for revision. Pending items (IG Account, LinkedIn, Social Posting) will be billed upon completion in the next cycle.
+            </div> -->
+        </div>
+    </div>
+
+    <!-- Print Button -->
+    <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+
+</body>
+</html>
